@@ -3,13 +3,12 @@ const express = require("express");
 const mongoose = require("mongoose");
 const MongoClient = require("mongodb").MongoClient;
 const bodyParser = require("body-parser");
-const Item = require("./Item");
+const Item = require("./Item"); 
 
 const app = express();
 const PORT = process.env.PORT || 3000;
-mongoose.connect(process.env.MONGO_CONNECTION, {
-  useNewUrlParser: true,
-});
+
+mongoose.connect(process.env.MONGO_CONNECTION, {});
 
 const db = mongoose.connection;
 db.on("error", console.error.bind(console, "connection error"));
