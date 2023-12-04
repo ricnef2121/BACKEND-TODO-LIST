@@ -24,7 +24,7 @@ app.post("/items", async (req, res) => {
   try {
     const newItem = new Item(req.body);
     const savedItem = await newItem.save();
-    res.json(savedItem);
+    res.status(201).json(savedItem);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
@@ -65,3 +65,5 @@ app.delete("/items/:id", async (req, res) => {
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
+
+module.exports = app;
