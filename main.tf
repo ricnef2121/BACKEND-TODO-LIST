@@ -40,7 +40,7 @@ resource "aws_s3_bucket_public_access_block" "todo-list" {
 resource "aws_s3_object" "provision_source_files" {
   key    = "todo_list"
   bucket = aws_s3_bucket.new_bucket.id
-  source     = "dist/main.js"
+  source     = "dist/index.html"
 }
 
  
