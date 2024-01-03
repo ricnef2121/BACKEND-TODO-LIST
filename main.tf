@@ -32,7 +32,7 @@ resource "aws_s3_bucket" "new_bucket" {
 resource "aws_s3_object" "provision_source_files" {
   key    = "dist_object"
   bucket = aws_s3_bucket.new_bucket.id
-  source     = "main.js"
+  source     = "dist/main.js"
 }
 
 
