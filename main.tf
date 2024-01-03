@@ -37,12 +37,18 @@ resource "aws_s3_object" "provision_source_files" {
 }
 
 resource "aws_s3_bucket_ownership_controls" "new_bucket" {
-  bucket = aws_s3_bucket.example.id
+  bucket = aws_s3_bucket.new_bucket.id
   rule {
     object_ownership = "BucketOwnerPreferred"
   }
 }
 
+resource "aws_s3_bucket_acl" "new_bucket" {
+  depends_on = [aws_s3_bucket_ownership_controls.new_bucket]
+
+  bucket = aws_s3_bucket.new_bucket.id
+  acl    = "private"
+}
 
 
 variable "TFC_AWS_ACCESS_KEY_ID" {
