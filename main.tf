@@ -28,13 +28,22 @@ resource "aws_s3_bucket" "new_bucket" {
     Environment = "Prod"
   }
 }
+resource "aws_s3_bucket_public_access_block" "todo-list" {
+ bucket = aws_s3_bucket.new_bucket.id
+
+  block_public_acls       = true
+  block_public_policy     = true
+  ignore_public_acls      = true
+  restrict_public_buckets = true
+}
 
 resource "aws_s3_object" "provision_source_files" {
-  key    = "dist_object"
+  key    = "todo_list"
   bucket = aws_s3_bucket.new_bucket.id
   source     = "dist/main.js"
 }
 
+ 
 
 variable "TFC_AWS_ACCESS_KEY_ID" {
   type    = string
