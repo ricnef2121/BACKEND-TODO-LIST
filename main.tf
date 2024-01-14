@@ -15,7 +15,7 @@ resource "aws_ecr_repository" "repository" {
 
 resource "aws_ecr_lifecycle_policy" "default_policy" {
   for_each   = toset(var.repository_list)
-  repository = aws_ecr_repository[each.key]
+  repository = aws_ecr_repository[each.key].name
 
 
   policy = <<EOF
