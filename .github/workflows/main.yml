@@ -44,7 +44,7 @@ jobs:
         working-directory: ./
       - name: Terraform Apply
         id: apply
-        run: terraform apply PLAN
+        run: terraform apply -auto-approve
         working-directory: ./
       - name: Set output
         id: set-dns
