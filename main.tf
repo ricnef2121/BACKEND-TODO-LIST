@@ -13,32 +13,32 @@ resource "aws_ecr_repository" "repository" {
   }
 }
 
-resource "aws_ecr_lifecycle_policy" "default_policy" {
-  for_each   = toset(var.repository_list)
-  repository = aws_ecr_repository[each.key].name
+# resource "aws_ecr_lifecycle_policy" "default_policy" {
+#   for_each   = toset(var.repository_list)
+#   repository = aws_ecr_repository.repository.name
 
 
-  policy = <<EOF
-	{
-	    "rules": [
-	        {
-	            "rulePriority": 1,
-	            "description": "Keep only the last 1 untagged images.",
-	            "selection": {
-	                "tagStatus": "untagged",
-	                "countType": "imageCountMoreThan",
-	                "countNumber": 1
-	            },
-	            "action": {
-	                "type": "expire"
-	            }
-	        }
-	    ]
-	}
-	EOF
+#   policy = <<EOF
+# 	{
+# 	    "rules": [
+# 	        {
+# 	            "rulePriority": 1,
+# 	            "description": "Keep only the last 1 untagged images.",
+# 	            "selection": {
+# 	                "tagStatus": "untagged",
+# 	                "countType": "imageCountMoreThan",
+# 	                "countNumber": 1
+# 	            },
+# 	            "action": {
+# 	                "type": "expire"
+# 	            }
+# 	        }
+# 	    ]
+# 	}
+# 	EOF
 
 
-}
+# }
 
 
 ## Build docker images and push to ECR
