@@ -5,8 +5,11 @@ terraform {
       version = "~>4.0"
     }
   }
-  backend "s3" {
-    key = "aws/ec2-deploy/terraform.tfstate"
+   backend "s3" {
+    bucket  = "tf-remote-state-storage"
+    key     = "terraform.tfstate"
+    region  = "eu-west-1"
+    encrypt = true
   }
 }
 provider "aws" {
