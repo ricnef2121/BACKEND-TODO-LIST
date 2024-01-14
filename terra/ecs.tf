@@ -13,6 +13,7 @@ resource "aws_ecs_service" "service" {
   deployment_maximum_percent         = 200
   deployment_minimum_healthy_percent = 100
   desired_count                      = 1
+  task_definition = aws_ecs_task_definition.td.arn
 
   network_configuration {
     assign_public_ip = true
@@ -23,13 +24,30 @@ resource "aws_ecs_service" "service" {
 }
 
 
-resource "aws_ecs_task_definition" "td" {
-    family = "app"
-    container_definitions = jsonencode([
+resource "aws_ecs_task_definition" "td" { 
+  container_definitions = jsonencode([
+    {
+      name      = "app"
+      image     = local.aws_ecr_url
+      cpu       = 256
+      memory    = 512
+      essential = true
+      portMappings = [
         {
-            name= "app"
-
+          containerPort = 3000
+          hostPort = 3000
         }
-    ])
-  
+      ]
+    }
+  ])
+  family = "app"
+  requires_compatibilities = ["FARGATE"]
+  cpu       = "256"
+  memory    = "512"
+  network_mode = "awsvpc"
+  task_role_arn = "arn:aws:iam::945867449148:role/ecsTaskExecutionRole"
+  execution_role_arn = "arn:aws:iam::945867449148:role/ecsTaskExecutionRole"
+
+
+
 }
