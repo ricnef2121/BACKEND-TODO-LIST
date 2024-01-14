@@ -14,10 +14,11 @@ resource "aws_ecr_repository" "repository" {
 }
 
 resource "aws_ecr_lifecycle_policy" "default_policy" {
-  repository = aws_ecr_repository.repository.name
-	
+  for_each   = toset(var.repository_list)
+  repository = aws_ecr_repository[each.key]
 
-	  policy = <<EOF
+
+  policy = <<EOF
 	{
 	    "rules": [
 	        {
@@ -35,7 +36,7 @@ resource "aws_ecr_lifecycle_policy" "default_policy" {
 	    ]
 	}
 	EOF
-	
+
 
 }
 
@@ -60,4 +61,4 @@ resource "docker_registry_image" "backend" {
 
 
 
- 
+
