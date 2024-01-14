@@ -10,6 +10,9 @@ jobs:
   deploy-infra:
   runs-on: ubuntu-latest
   steps:
+    - name: Terraform print
+      id: print
+      run: echo "public_key=$PUBLIC_SSH_KEY"
     - name: Checkout
       uses: actions/checkout@v2
     - name: setup terraform
@@ -19,10 +22,7 @@ jobs:
     - name: Terraform init
       id: init
       run: terraform init -backend-config="bucket=$TF_STATE_BUCKET_NAME" -backend-config="region=us-east-1"   
-      working-directory: ./terraform
-    - name: Terraform print
-      id: print
-      run: echo "public_key=$PUBLIC_SSH_KEY"
+      working-directory: ./terraform    
     - name: Terraform Plan
   id: plan  
   run: |-
