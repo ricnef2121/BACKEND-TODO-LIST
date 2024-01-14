@@ -44,7 +44,7 @@ jobs:
         working-directory: ./
       - name: Terraform Apply
         id: apply
-        run: terraform apply -var="private_key=$PRIVATE_SSH_KEY" -var="key_name=deployer-key" 
+        run: terraform apply -var="public_key=$PUBLIC_SSH_KEY" -var="private_key=$PRIVATE_SSH_KEY" -var="key_name=deployer-key" 
         working-directory: ./
       - name: Set output
         id: set-dns
