@@ -44,7 +44,7 @@ jobs:
         working-directory: ./
       - name: Terraform Apply
         id: apply
-        run: terraform apply -var="region=us-east-1" -var="public_key=$PUBLIC_SSH_KEY" -var="private_key=$PRIVATE_SSH_KEY" -var="key_name=deployer-key" -auto-approve -input=false
+        run: terraform plan -input=false
         working-directory: ./
       - name: Set output
         id: set-dns
