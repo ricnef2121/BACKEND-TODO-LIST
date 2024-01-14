@@ -23,20 +23,6 @@ resource "docker_registry_image" "backend" {
 
 ## Setup proper credentials to push to ECR
 
-terraform {
-  cloud {
-    organization = "example-org-35309e"
-
-    workspaces {
-      name = "learn-terraform-github-actions"
-    }
-  }
-  required_providers {
-    aws = {
-      source  = "hashicorp/aws"
-      version = "~> 5.0"
-    }
-  }
-}
+ 
 
  
