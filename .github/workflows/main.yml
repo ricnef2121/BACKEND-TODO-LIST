@@ -43,16 +43,16 @@ jobs:
           -var="private_key=$PRIVATE_SSH_KEY" \
           -var="key_name=deployer-key" \
           -out=PLAN
-        working-directory: ./terraform
+        working-directory: ./
       - name: Terraform Apply
         id: apply
         run: terraform apply PLAN
-        working-directory: ./terraform
+        working-directory: ./
       - name: Set output
         id: set-dns
         run: |
           echo "::set-output name=instance_public_dns::$(terraform output instance_public_ip)"
-        working-directory: ./terraform
+        working-directory: ./
       - name: Login to AWS ECR
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v1
