@@ -5,9 +5,9 @@ terraform {
       version = "~> 5.0"
     }
   }
-  # backend "s3" {
-  #   key = "aws/ec2-deploy/terraform.tfstate"
-  # }
+  backend "s3" {
+    key = "aws/ec2-deploy/terraform.tfstate"
+  }
 }
 provider "aws" {
   region = var.region
