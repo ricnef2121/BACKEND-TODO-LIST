@@ -2,7 +2,7 @@ name: Deploy to Amazon ECS
 on:
   push:
     branches:
-      - master 
+      - main 
 env:
   AWS_REGION: ${{ secrets.AWS_REGION }}
   ECS_CLUSTER: app_cluster
