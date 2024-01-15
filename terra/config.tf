@@ -28,8 +28,5 @@ resource "aws_instance" "example_server" {
   key_name      = aws_key_pair.generated_key.key_name
   tags = {
     Name = "TODO-LIST-BACKEND"
-  }
-  provisioner "remote-exec" {
-    inline = ["sudo yum install -y nginx", "sudo systemctl start nginx", "sudo systemctl enable nginx"]
-  }
+  } 
 }
