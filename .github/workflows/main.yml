@@ -36,16 +36,16 @@ jobs:
 
     - name: Terraform Apply
       run: terraform -chdir=terra/ apply -auto-approve -input=false
-
-    - name: Configure AWS credentials
-      uses: aws-actions/configure-aws-credentials@v1
-      with:
-        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws-region: "us-east-1"
-
-    - name: Build, tag and push image to AWS ECR
-      id: build
+    
+    - name: Set output
+      id: set-dns
+      run: echo "::set-output name=instance_public_dns::$(terraform output instance_public_ip)"
+      working-directory: ./
+    - name: Login to AWS ECR
+      id: login-ecr
+      uses: aws-actions/amazon-ecr-login@v1
+    - run: echo SERVER_PUBLIC_IP=${{ needs.deploy-infra.outputs.SERVER_PUBLIC_DNS }} >> $GITHUB_ENV
+    - name: Build, tag, and push Docker image to Amazon ECR
       env:
         REGISTRY: ${{ steps.login-ecr.outputs.registry }}
         REPOSITORY: "app_repo"
@@ -53,4 +53,22 @@ jobs:
       run: |
         docker build -t $REGISTRY/$REPOSITORY:$IMAGE_TAG .
         docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
-        echo "::set-output name=image::$REGISTRY/$REPOSITORY:$IMAGE_TAG"
+      working-directory: ./
+
+    # - name: Configure AWS credentials
+    #   uses: aws-actions/configure-aws-credentials@v1
+    #   with:
+    #     aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+    #     aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+    #     aws-region: "us-east-1"
+
+    # - name: Build, tag and push image to AWS ECR
+    #   id: build
+    #   env:
+    #     REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+    #     REPOSITORY: "app_repo"
+    #     IMAGE_TAG: latest
+    #   run: |
+    #     docker build -t $REGISTRY/$REPOSITORY:$IMAGE_TAG .
+    #     docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
+    #     echo "::set-output name=image::$REGISTRY/$REPOSITORY:$IMAGE_TAG"
