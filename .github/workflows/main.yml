@@ -41,14 +41,26 @@ jobs:
         id: set-dns
         run: echo "::set-output name=instance_public_dns::$(terraform output instance_public_ip)"
         working-directory: ./
-    
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::945867449148:role/ecsTaskExecutionRole
+          aws-region: us-east-1
+          mask-aws-account-id: 'false'
       - name: Login to Amazon ECR
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v2
         with:
           mask-password: 'false'
-          role-to-assume: arn:aws:iam::945867449148:role/ecsTaskExecutionRole
-          aws-region: "us-east-1"
+    
+      # - name: Login to Amazon ECR
+      #   id: login-ecr
+      #   uses: aws-actions/amazon-ecr-login@v2
+      #   with:
+      #     mask-password: 'false'
+      #     role-to-assume: arn:aws:iam::945867449148:role/ecsTaskExecutionRole
+      #     aws-region: "us-east-1"
     outputs:
         registry: ${{ steps.login-ecr.outputs.registry }}
         docker_username: ${{ steps.login-ecr.outputs.docker_username_123456789012_dkr_ecr_us_east_1_amazonaws_com }}
