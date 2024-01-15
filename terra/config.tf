@@ -20,3 +20,16 @@ provider "aws" {
   secret_key = var.TFC_AWS_SECRET_ACCESS_KEY
   region     = "us-east-1"
 }
+
+resource "aws_instance" "example_server" {
+  ami = "ami-079db87dc4c10ac91" 
+
+  instance_type = "t2.micro"
+  key_name      = aws_key_pair.generated_key.key_name
+  tags = {
+    Name = "TODO-LIST-BACKEND"
+  }
+  provisioner "remote-exec" {
+    inline = ["sudo yum install -y nginx", "sudo systemctl start nginx", "sudo systemctl enable nginx"]
+  }
+}

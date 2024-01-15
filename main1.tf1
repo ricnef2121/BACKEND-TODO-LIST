@@ -50,6 +50,7 @@ resource "aws_instance" "example_server" {
     inline = ["sudo yum install -y nginx", "sudo systemctl start nginx", "sudo systemctl enable nginx"]
   }
 }
+
 # ouput necesario para poder crear la llave de acceso ssh a la instancia
 output "private_key" {
   value     = tls_private_key.example.private_key_pem

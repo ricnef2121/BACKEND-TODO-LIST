@@ -11,3 +11,9 @@ variable "region" {
   type  = string
   default = "us-east-1"
 }
+
+# variable necesaria para poder crear la llave de acceso ssh a la instancia
+variable "key_name" {
+  type    = string
+  default = "ssh-todo-list"
+}
