@@ -61,7 +61,7 @@ jobs:
       uses: aws-actions/amazon-ecr-login@v2
       with:
           role-to-assume: arn:aws:iam::945867449148:role/ecsTaskExecutionRole
-          aws-region: aws-region-1
+          aws-region: "us-east-1"
     - name: Build, tag, and push docker image to Amazon ECR
       env:
         REGISTRY: ${{ steps.login-ecr.outputs.registry }}
