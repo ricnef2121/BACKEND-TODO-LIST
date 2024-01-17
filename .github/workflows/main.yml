@@ -44,7 +44,7 @@ jobs:
       
       - name: Terraform output  
         env: 
-          PLAN: "terraform\n${{ steps.apply.outputs.ecr_url }}"
+          PLAN: "terraform ${{ steps.apply.outputs.ecr_url }}"
         run: | 
          echo "$PLAN"
         # run: |
