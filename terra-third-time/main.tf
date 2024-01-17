@@ -69,19 +69,19 @@ resource "docker_registry_image" "backend" {
   name          = "${aws_ecr_repository.backend.repository_url}:latest"
   keep_remotely = true
 
-  # build {
-  #   context    = "../"
-  #   dockerfile = ".Dockerfile"
-  # }
-}
-
-resource "docker_image" "image" {
-  name = "${aws_ecr_repository.backend.repository_url}:latest"
   build {
     context    = "../"
     dockerfile = ".Dockerfile"
   }
 }
+
+# resource "docker_image" "image" {
+#   name = "${aws_ecr_repository.backend.repository_url}:latest"
+#   build {
+#     context    = "../"
+#     dockerfile = ".Dockerfile"
+#   }
+# }
 
 # resource "null_resource" "docker_packaging" {
 
