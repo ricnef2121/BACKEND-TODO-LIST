@@ -108,3 +108,8 @@ resource "aws_iam_access_key" "grafana_user_access_key" {
   user = aws_iam_user.grafana_user.name
 }
 
+resource "aws_iam_user_policy_attachment" "grafana_user_policy_attachment_ecr" {
+  user       = aws_iam_user.grafana_user.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryFullAccess"
+}
+
