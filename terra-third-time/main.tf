@@ -78,7 +78,8 @@ resource "docker_registry_image" "backend" {
 resource "docker_image" "image" {
   name = "${aws_ecr_repository.backend.repository_url}:latest"
   build {
-    path = ".Dockerfile" 
+    context    = "../"
+    dockerfile = ".Dockerfile"
   }
 }
 
