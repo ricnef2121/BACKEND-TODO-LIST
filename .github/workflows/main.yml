@@ -27,6 +27,7 @@ jobs:
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v1
         with:
+          terraform_wrapper: false
           cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
 
       - name: Terraform Init
@@ -43,4 +44,5 @@ jobs:
           echo "::set-output name=instance_public_dns::$(terraform output elastic_ip)"
           output=$(terraform output elastic_ip) 
           echo $output
+        working-directory: ./
         
