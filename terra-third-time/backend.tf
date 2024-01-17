@@ -11,7 +11,7 @@ terraform {
     organization = "example-org-35309e"
 
     workspaces { 
-      prefix = "learn-terraform-github-actions"
+      name = "learn-terraform-github-actions"
     }
   }
 }

@@ -66,11 +66,19 @@ resource "aws_ecr_lifecycle_policy" "default_policy_docker" {
 # }
 
 resource "docker_registry_image" "backend" {
-  name = "${aws_ecr_repository.backend.repository_url}:latest"
+  name          = "${aws_ecr_repository.backend.repository_url}:latest"
+  keep_remotely = true
 
+  # build {
+  #   context    = "../"
+  #   dockerfile = ".Dockerfile"
+  # }
+}
+
+resource "docker_image" "image" {
+  name = "${aws_ecr_repository.backend.repository_url}:latest"
   build {
-    context    = "../"
-    dockerfile = ".Dockerfile"
+    path = ".Dockerfile" 
   }
 }
 
