@@ -21,12 +21,12 @@ provider "aws" {
   region     = "us-east-1"
 }
 
-resource "aws_instance" "example_server" {
-  ami = "ami-079db87dc4c10ac91" 
+# resource "aws_instance" "example_server" {
+#   ami = "ami-079db87dc4c10ac91" 
 
-  instance_type = "t2.micro"
-  key_name      = aws_key_pair.generated_key.key_name
-  tags = {
-    Name = "TODO-LIST-BACKEND"
-  } 
-}
+#   instance_type = "t2.micro"
+#   key_name      = aws_key_pair.generated_key.key_name
+#   tags = {
+#     Name = "TODO-LIST-BACKEND"
+#   } 
+# }
