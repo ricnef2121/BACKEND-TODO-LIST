@@ -7,10 +7,11 @@ terraform {
   }
 
   backend "remote" {
+    hostname = "app.terraform.io"
     organization = "example-org-35309e"
 
-    workspaces {
-      name = "learn-terraform-github-actions"
+    workspaces { 
+      prefix = "learn-terraform-github-actions"
     }
   }
 }
