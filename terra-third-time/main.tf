@@ -13,7 +13,7 @@
 #   }
 # } 
 
-resource "aws_ecr_repository" "backend" { 
+resource "aws_ecr_repository" "backend" {
   name                 = "backend"
   image_tag_mutability = "MUTABLE"
 
@@ -28,7 +28,7 @@ resource "aws_ecr_repository" "backend" {
 
 resource "aws_ecr_lifecycle_policy" "default_policy_docker" {
   repository = aws_ecr_repository.backend.name
-  policy = <<EOF
+  policy     = <<EOF
 	{
 	    "rules": [
 	        {
@@ -65,16 +65,36 @@ resource "aws_ecr_lifecycle_policy" "default_policy_docker" {
 #   }
 # }
 
-resource "docker_registry_image" "backend" { 
-  name     = "${aws_ecr_repository.backend.repository_url}:latest"
+# resource "docker_registry_image" "backend" { 
+#   name     = "${aws_ecr_repository.backend.repository_url}:latest"
 
-  build { 
-    context    = "../"
-    dockerfile = ".Dockerfile"
+#   build { 
+#     context    = "../"
+#     dockerfile = ".Dockerfile"
+#   }
+# }
+
+resource "null_resource" "docker_packaging" {
+
+  provisioner "local-exec" {
+    command = <<EOF
+	    aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin ${data.aws_caller_identity.current.account_id}.dkr.ecr.us-east-1.amazonaws.com
+	    gradle build -p backend
+	    docker build -t "${aws_ecr_repository.backend.repository_url}:latest" -f ./Dockerfile .
+	    docker push "${aws_ecr_repository.backend.repository_url}:latest"
+	    EOF
   }
-}
 
-## Setup proper credentials to push to ECR
+
+  triggers = {
+    "run_at" = timestamp()
+  }
+
+
+  depends_on = [
+    aws_ecr_repository.backend,
+  ]
+}
 
 
 
