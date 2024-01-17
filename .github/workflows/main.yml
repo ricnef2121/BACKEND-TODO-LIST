@@ -44,8 +44,5 @@ jobs:
         run: |
           echo "instance_public={$(terraform output elastic_ip)}" >> $GITHUB_OUTPUT
           echo "instance_public=$(terraform output elastic_ip)" >> $GITHUB_OUTPUT
-          echo "::set-output name=instance_public_dns::$(terraform output elastic_ip)"
-          output=$(terraform output elastic_ip) 
-          echo $output
         working-directory: ./
         
