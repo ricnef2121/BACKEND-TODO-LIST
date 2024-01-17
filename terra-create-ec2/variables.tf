@@ -12,3 +12,8 @@ variable "key_name" {
   type    = string
   default = "ssh-todo-list"
 }
+
+variable "TFC_AWS_REGION" {
+  type    = string
+  default = ""
+}

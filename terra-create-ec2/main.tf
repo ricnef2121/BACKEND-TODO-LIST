@@ -12,7 +12,7 @@ terraform {
       source  = "hashicorp/aws"
       version = "~> 5.0"
     }
-  } 
+  }
 }
 
 # Configuramos el proveedor de AWS
@@ -36,7 +36,7 @@ resource "aws_security_group" "sg_example_04" {
   }
 
   ingress {
-    from_port   = 3000
+    from_port   = 3000 
     to_port     = 3000
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
@@ -48,6 +48,7 @@ resource "aws_security_group" "sg_example_04" {
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
+  # subred privada
 
   # Reglas de salida para permitir todas las conexiones salientes
   egress {
@@ -60,13 +61,14 @@ resource "aws_security_group" "sg_example_04" {
 
 # Creamos una instancia EC2
 resource "aws_instance" "instancia_ejemplo_04" {
- ami                    = "ami-00874d747dde814fa"
-  instance_type          = "t2.small" 
+  ami           = "ami-00874d747dde814fa"
+  instance_type = "t2.small"
   key_name      = aws_key_pair.generated_key.key_name
-  
+
   security_groups = [aws_security_group.sg_example_04.name]
 
-  user_data = file("scripts/install_docker.sh")
+  #user_data = file("scripts/install_docker.sh")
+  user_data = data.template_file.user_data.rendered
 
   tags = {
     Name = "TODO-LIST-EC2"
@@ -80,5 +82,24 @@ resource "aws_eip" "ip_elastica" {
 
 
 
+#Grafana user creation
+resource "aws_iam_user" "grafana_user" {
+  name = "grafana"
+}
 
+#Grafana user policy
+resource "aws_iam_user_policy_attachment" "grafana_user_policy_attachment_ecs" {
+  user       = aws_iam_user.grafana_user.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonECS_FullAccess"
+}
+
+resource "aws_iam_user_policy_attachment" "grafana_user_policy_attachment_ec2" {
+  user       = aws_iam_user.grafana_user.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonEC2FullAccess"
+}
+
+resource "aws_iam_user_policy_attachment" "grafana_user_policy_attachment_S3" {
+  user       = aws_iam_user.grafana_user.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonS3FullAccess"
+}
  
