@@ -22,12 +22,12 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v2
 
       - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v3
+        uses: hashicorp/setup-terraform@v1
         with:
-          terraform_version: "1.6.6"
+          terraform_version: 0.15.0
           terraform_wrapper: false
           cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
 
@@ -42,7 +42,6 @@ jobs:
       
       - name: Terraform output  
         run: |
-          echo "instance_public={$(terraform output elastic_ip)}" >> $GITHUB_OUTPUT
-          echo "instance_public=$(terraform output elastic_ip)" >> $GITHUB_OUTPUT
-        working-directory: ./
+          output_value=$(terraform output ecr_url)
+          echo "Terraform Output: $output_value" 
         
