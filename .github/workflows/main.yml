@@ -41,7 +41,8 @@ jobs:
         run: terraform -chdir=terra-create-ecr-repo/ apply -auto-approve -input=false
       
       - name: Terraform output  
-        run: |
-           output_value=$(terraform output ecr_url)
-           echo "Terraform Output: $output_value"
+        run: terraform output -raw ecr_url
+        # run: |
+        #    output_value=$(terraform output ecr_url)
+        #    echo "Terraform Output: $output_value"
         
