@@ -35,13 +35,17 @@ jobs:
         run: terraform -chdir=terra-create-ecr-repo/ init -input=false
 
       - name: Terraform Plan
-        run: terraform -chdir=terra-create-ecr-repo/ plan -input=false
+        id: plan
+        run: terraform -chdir=terra-create-ecr-repo/ plan -no-color -input=false
 
       - name: Terraform Apply
         run: terraform -chdir=terra-create-ecr-repo/ apply -auto-approve -input=false
       
       - name: Terraform output  
-        run: terraform output -raw ecr_url
+        env: 
+          PLAN: "terraform\n${{ steps.plan.outputs.stdout }}"
+        run: | 
+         echo "$PLAN"
         # run: |
         #    output_value=$(terraform output ecr_url)
         #    echo "Terraform Output: $output_value"
