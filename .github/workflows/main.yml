@@ -38,11 +38,12 @@ jobs:
         run: terraform -chdir=terra-create-ecr-repo/ plan -no-color -input=false
 
       - name: Terraform Apply
+        id: apply
         run: terraform -chdir=terra-create-ecr-repo/ apply -auto-approve -input=false
       
       - name: Terraform output  
         env: 
-          PLAN: "terraform\n${{ steps.plan.outputs.ecr_url }}"
+          PLAN: "terraform\n${{ steps.apply.outputs.ecr_url }}"
         run: | 
          echo "$PLAN"
         # run: |
