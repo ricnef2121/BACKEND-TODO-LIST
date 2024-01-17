@@ -2,15 +2,19 @@ terraform {
   required_providers {
     docker = {
       source  = "kreuzwerker/docker"
-      version = "2.15.0"
+      version = "3.0.2"
     }
   }
 
-  backend "remote" { 
+  backend "remote" {
     organization = "example-org-35309e"
 
     workspaces {
       name = "learn-terraform-github-actions"
     }
   }
+}
+
+provider "docker" {
+  host = "unix:///var/run/docker.sock"
 }
