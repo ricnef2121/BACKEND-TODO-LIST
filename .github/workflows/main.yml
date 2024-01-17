@@ -23,46 +23,46 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
       
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          aws-region: ${{ secrets.AWS_REGION }}
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      - name: Login to Amazon ECR
-        id: login-ecr
-        uses: aws-actions/amazon-ecr-login@v2
-        with:
-          mask-password: 'false'
-          
-      - name: Build, tag and push image to AWS ECR
-        id: build
-        env:
-          REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-          REPOSITORY: backend
-          IMAGE_TAG: latest
-        run: |
-              docker build -t $REGISTRY/$REPOSITORY:$IMAGE_TAG .
-              docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
-              echo "::set-output name=image::$REGISTRY/$REPOSITORY:$IMAGE_TAG"  
-
-      # - name: Setup Terraform create ece instance
-      #   uses: hashicorp/setup-terraform@v3
+      # - name: Configure AWS credentials
+      #   uses: aws-actions/configure-aws-credentials@v4
       #   with:
-      #     terraform_version: "1.6.6"          
-      #     terraform_wrapper: false
-      #     cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
+      #     aws-region: ${{ secrets.AWS_REGION }}
+      #     aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      #     aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      # - name: Login to Amazon ECR
+      #   id: login-ecr
+      #   uses: aws-actions/amazon-ecr-login@v2
+      #   with:
+      #     mask-password: 'false'
+          
+      # - name: Build, tag and push image to AWS ECR
+      #   id: build
+      #   env:
+      #     REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+      #     REPOSITORY: backend
+      #     IMAGE_TAG: latest
+      #   run: |
+      #         docker build -t $REGISTRY/$REPOSITORY:$IMAGE_TAG .
+      #         docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
+      #         echo "::set-output name=image::$REGISTRY/$REPOSITORY:$IMAGE_TAG"  
 
-      # - name: Terraform Init
-      #   run: terraform -chdir=terra-create-ec2/ init -input=false
+      - name: Setup Terraform create ece instance
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: "1.6.6"          
+          terraform_wrapper: false
+          cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
 
-      # - name: Terraform Plan
-      #   id: plan
-      #   run: terraform -chdir=terra-create-ec2/ plan -no-color -input=false
+      - name: Terraform Init
+        run: terraform -chdir=terra-create-ec2/ init -input=false
 
-      # - name: Terraform Apply
-      #   id: apply
-      #   run: terraform -chdir=terra-create-ec2/ apply -auto-approve -input=false
+      - name: Terraform Plan
+        id: plan
+        run: terraform -chdir=terra-create-ec2/ plan -no-color -input=false
+
+      - name: Terraform Apply
+        id: apply
+        run: terraform -chdir=terra-create-ec2/ apply -auto-approve -input=false
 
 
 
