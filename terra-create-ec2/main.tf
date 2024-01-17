@@ -36,7 +36,7 @@ resource "aws_security_group" "sg_example_04" {
   }
 
   ingress {
-    from_port   = 3000 
+    from_port   = 3000
     to_port     = 3000
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
@@ -87,6 +87,7 @@ resource "aws_iam_user" "grafana_user" {
   name = "grafana"
 }
 
+
 #Grafana user policy
 resource "aws_iam_user_policy_attachment" "grafana_user_policy_attachment_ecs" {
   user       = aws_iam_user.grafana_user.name
@@ -102,4 +103,8 @@ resource "aws_iam_user_policy_attachment" "grafana_user_policy_attachment_S3" {
   user       = aws_iam_user.grafana_user.name
   policy_arn = "arn:aws:iam::aws:policy/AmazonS3FullAccess"
 }
- 
+
+resource "aws_iam_access_key" "grafana_user_access_key" {
+  user = aws_iam_user.grafana_user.name
+}
+
