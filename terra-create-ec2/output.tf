@@ -9,6 +9,6 @@ output "private_key" {
   sensitive = true
 }
 
-output "user_access_key.id" {
+output "user_access_key_id" {
   value = aws_iam_access_key.grafana_user_access_key.id
 }
