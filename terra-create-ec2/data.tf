@@ -20,8 +20,9 @@ data "template_file" "user_data" {
                 export AWS_DEFAULT_REGION=us-east-1       
                 sudo apt-get install -y awscli
                 # Configure aws
-                sudo aws configure set region ${var.TFC_AWS_REGION}
-                sudo aws configure set aws_access_key_id ${aws_iam_access_key.grafana_user_access_key.id}
+                sudo aws configure set region ${name}
+                # ${var.TFC_AWS_REGION}
+                sudo aws configure set aws_access_key_id ${aws_access_key_id}
                 sudo aws configure set aws_secret_access_key ${aws_iam_access_key.grafana_user_access_key.secret}
 
                 # aws configure set aws_access_key_id  $AWS_ACCESS_KEY_ID; aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY; aws configure set default.region $AWS_DEFAULT_REGION
@@ -32,6 +33,11 @@ data "template_file" "user_data" {
                 # Create container
                 # sudo docker run -dti --name "todo-back" -p 3000:3000 ${data.aws_caller_identity.current.account_id}.${var.TFC_AWS_REGION}.amazonaws.com/backend
               EOF
+
+  vars = {
+    name              = "Justin"
+    aws_access_key_id = aws_iam_access_key.grafana_user_access_key.id
+  }
 }
 # sudo apt-get update                
 # sudo apt-get install -y python3 python3-pip
