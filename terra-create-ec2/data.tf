@@ -27,7 +27,6 @@ data "template_file" "user_data" {
                 sudo docker pull ${data.aws_caller_identity.current.account_id}.${var.TFC_AWS_REGION}.amazonaws.com/backend:latest                
                 # Create container
                 # sudo docker run -dti --name "todo-back" -p 3000:3000 ${data.aws_caller_identity.current.account_id}.${var.TFC_AWS_REGION}.amazonaws.com/backend
-
               EOF
 }
 # sudo apt-get update                

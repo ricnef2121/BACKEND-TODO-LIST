@@ -8,3 +8,7 @@ output "private_key" {
   value     = tls_private_key.example.private_key_pem
   sensitive = true
 }
+
+output "user_access_key.id" {
+  value = aws_iam_access_key.grafana_user_access_key.id
+}
