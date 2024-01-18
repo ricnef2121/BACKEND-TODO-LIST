@@ -41,7 +41,8 @@ systemctl start docker
 
 apt-get update     
 apt-get install -y awscli
-export AWS_ACCESS_KEY_ID=AKIAIOSFODNN7EXAMPLE
-export AWS_SECRET_ACCESS_KEY=wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
-export AWS_DEFAULT_REGION=${region}
+sudo export AWS_ACCESS_KEY_ID=AKIAIOSFODNN7EXAMPLE
+sudo export AWS_SECRET_ACCESS_KEY=wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
+sudo export AWS_DEFAULT_REGION=${region}
+sudo touch ${region}.txt
 
