@@ -20,7 +20,11 @@ data "template_file" "user_data" {
                 export AWS_DEFAULT_REGION=us-east-1       
                 sudo apt-get install -y awscli
                 # Configure aws
-                aws configure set aws_access_key_id  $AWS_ACCESS_KEY_ID; aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY; aws configure set default.region $AWS_DEFAULT_REGION
+                aws configure set region ${var.TFC_AWS_REGION}
+                aws configure set aws_access_key_id ${aws_iam_access_key.grafana_user_access_key.id}
+                aws configure set aws_secret_access_key ${aws_iam_access_key.grafana_user_access_key.secret}
+
+                # aws configure set aws_access_key_id  $AWS_ACCESS_KEY_ID; aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY; aws configure set default.region $AWS_DEFAULT_REGION
                 # Login to ECR (ensure you have the AWS CLI configured and valid credentials)
                 aws ecr get-login-password --region "$AWS_REGION" | docker login --username AWS --password-stdin "${data.aws_caller_identity.current.account_id}.dkr.ecr.${var.TFC_AWS_REGION}.amazonaws.com"
                 # Docker pull
