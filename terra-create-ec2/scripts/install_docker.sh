@@ -40,7 +40,10 @@ systemctl enable docker
 systemctl start docker
 
 apt-get update     
-apt-get install -y awscli
+
+sudo apt-get install -y awscli
+sudo echo ${region} > /tmp/test.txt
+
 sudo export AWS_ACCESS_KEY_ID=AKIAIOSFODNN7EXAMPLE
 sudo export AWS_SECRET_ACCESS_KEY=wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
 sudo export AWS_DEFAULT_REGION=${region}
