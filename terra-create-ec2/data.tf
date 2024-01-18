@@ -3,6 +3,7 @@ data "aws_caller_identity" "current" {}
 data "aws_ecr_authorization_token" "token" {}
 
 data "template_file" "user_data" {
+  
   template = "${file("scripts/install.tpl")}"
   # template = file("scripts/install_docker.sh")
 

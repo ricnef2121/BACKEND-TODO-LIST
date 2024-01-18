@@ -68,7 +68,8 @@ resource "aws_instance" "instancia_ejemplo_04" {
   security_groups = [aws_security_group.sg_example_04.name]
 
   #user_data = file("scripts/install_docker.sh")
-  user_data = data.template_file.user_data.rendered
+  # user_data = data.template_file.user_data.rendered
+  user_data = templatefile("scripts/install_docker.sh",{region = "us-west-1"})
 
   tags = {
     Name = "TODO-LIST-EC2"
