@@ -83,9 +83,9 @@ resource "aws_instance" "instancia_ejemplo_04" {
 }
 
 # Creamos una IP elástica y la asociamos a la instancia
-resource "aws_eip" "ip_elastica" {
-  instance = aws_instance.instancia_ejemplo_04.id
-}
+# resource "aws_eip" "ip_elastica" {
+#   instance = aws_instance.instancia_ejemplo_04.id
+# }
 
 
 
