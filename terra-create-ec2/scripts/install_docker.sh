@@ -55,6 +55,7 @@ echo export AWS_DEFAULT_REGION="${region}"  >> config.sh
 chmod 744 config.sh
 ./config.sh
 
+sudo docker pull ${docker}.${region}.amazonaws.com/backend:latest                
 # echo "#!/bin/bash"  > config.sh
 # echo touch credentials
 # echo "[default]" >> credentials
