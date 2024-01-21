@@ -42,10 +42,16 @@ systemctl start docker
 apt-get update     
 
 sudo apt-get install -y awscli
-sudo echo ${region} > /tmp/test.txt
+sudo echo -e "#!/bin/bash\nexport AWS_ACCESS_KEY_ID="${access}"\nexport AWS_SECRET_ACCESS_KEY="${secret}"\nexport AWS_DEFAULT_REGION="${region}"" >> config.sh
+sudo chmod +x config.sh
+./configurar_credenciales.sh
 
-sudo export AWS_ACCESS_KEY_ID=AKIAIOSFODNN7EXAMPLE
-sudo export AWS_SECRET_ACCESS_KEY=wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
-sudo export AWS_DEFAULT_REGION=${region}
-sudo touch ${region}.txt
+
+# sudo echo "#!/bin/bash"  > config.sh
+# sudo echo export AWS_ACCESS_KEY_ID="${access}" > config.sh
+# sudo echo export AWS_SECRET_ACCESS_KEY="${secret}"  > config.sh
+# sudo echo export AWS_DEFAULT_REGION="${region}"  > config.sh
+
+# export AWS_SECRET_ACCESS_KEY="TU_SECRET_KEY"
+# export AWS_DEFAULT_REGION="TU_REGION"
 
