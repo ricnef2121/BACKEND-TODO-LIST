@@ -42,13 +42,25 @@ systemctl start docker
 apt-get update     
 
 sudo apt-get install -y awscli
+
 mkdir ~/.aws
 cd ~/.aws
+
+
+touch config.sh
+echo "#!/bin/bash"  > config.sh
 echo touch credentials
 echo "[default]" >> credentials
 echo "aws_access_key_id = "${access}"" >> credentials
 echo " aws_secret_access_key = "${secret}"" >> credentials
 echo "region = "${region}"" >> credentials
+chmod 744 config.sh
+./config.sh
+
+
+
+
+
 
 # echo "#!/bin/bash"  > config.sh
 # echo "export AWS_ACCESS_KEY_ID="${access}"" >> config.sh
