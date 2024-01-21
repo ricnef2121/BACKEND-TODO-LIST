@@ -52,6 +52,8 @@ echo "#!/bin/bash"  >> config.sh
 echo export AWS_ACCESS_KEY_ID="${access}" >> config.sh
 echo export AWS_SECRET_ACCESS_KEY="${secret}"  >> config.sh
 echo export AWS_DEFAULT_REGION="${region}"  >> config.sh
+echo export IMAGE="${docker}"  >> config.sh
+echo sudo docker pull ${docker}.${region}.amazonaws.com/backend:latest   
 chmod 744 config.sh
 ./config.sh
 
@@ -86,3 +88,5 @@ sudo docker pull ${docker}.${region}.amazonaws.com/backend:latest
 # export AWS_SECRET_ACCESS_KEY="TU_SECRET_KEY"
 # export AWS_DEFAULT_REGION="TU_REGION"
  
+
+# printenv | less
