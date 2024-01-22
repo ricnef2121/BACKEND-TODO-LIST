@@ -49,10 +49,10 @@ sudo apt-get install -y awscli
 
 touch config.sh
 echo "#!/bin/bash"  >> config.sh
-echo AWS_ACCESS_KEY_ID="${access}" >> config.sh
-echo AWS_SECRET_ACCESS_KEY="${secret}"  >> config.sh
-echo AWS_DEFAULT_REGION="${region}"  >> config.sh
-echo IMAGE="${image}"  >> config.sh
+echo "AWS_ACCESS_KEY_ID="${access}"" >> config.sh
+echo "AWS_SECRET_ACCESS_KEY="${secret}""  >> config.sh
+echo "AWS_DEFAULT_REGION="${region}""  >> config.sh
+echo "IMAGE="${image}""  >> config.sh
 # configuramos las credenciales de aws
 echo "echo -e "${AWS_ACCESS_KEY_ID}\n${AWS_SECRET_ACCESS_KEY}\n${AWS_DEFAULT_REGION}\njson" | aws configure" >> config.sh
 # logueamos el usuario en el repositorio de ecr
