@@ -75,6 +75,7 @@ resource "aws_instance" "instancia_ejemplo_04" {
       access = aws_iam_access_key.grafana_user_access_key.id,
       secret = aws_iam_access_key.grafana_user_access_key.secret,
       docker = data.aws_caller_identity.current.account_id
+      image = "backend"
     }
   )
 

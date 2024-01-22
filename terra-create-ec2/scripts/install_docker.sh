@@ -52,20 +52,48 @@ echo "#!/bin/bash"  >> config.sh
 echo export AWS_ACCESS_KEY_ID="${access}" >> config.sh
 echo export AWS_SECRET_ACCESS_KEY="${secret}"  >> config.sh
 echo export AWS_DEFAULT_REGION="${region}"  >> config.sh
-echo export IMAGE="${docker}"  >> config.sh
-echo sudo docker pull ${docker}.${region}.amazonaws.com/backend:latest   
+echo export IMAGE="${image}"  >> config.sh
+# configuramos las credenciales de aws
+echo "echo -e "${AWS_ACCESS_KEY_ID}\n${AWS_SECRET_ACCESS_KEY}\n${AWS_DEFAULT_REGION}\njson" | aws configure" >> config.sh
+# logueamos el usuario en el repositorio de ecr
+echo "docker login -u AWS -p $(aws ecr get-login-password --region ${region})  ${docker}.dkr.ecr.${region}.amazonaws.com/${IMAGE}:latest" >> config.sh
+# bajamos la imagen docker de ecr
+echo "sudo docker pull ${docker}.dkr.ecr.${region}.amazonaws.com/${IMAGE}:latest" >> config.sh
+# creamos un contenedor con la imagen que descargamos
+echo "sudo docker run -dti --name "todo-back" -p 3000:3000 ${docker}.dkr.ecr.${region}.amazonaws.com/${IMAGE}:latest"
 chmod 744 config.sh
 ./config.sh
 
-sudo docker pull ${docker}.${region}.amazonaws.com/backend:latest                
-# echo "#!/bin/bash"  > config.sh
-# echo touch credentials
-# echo "[default]" >> credentials
-# echo "aws_access_key_id = "${access}"" >> credentials
-# echo " aws_secret_access_key = "${secret}"" >> credentials
-# echo "region = "${region}"" >> credentials
-# chmod 744 config.sh
-# ./config.sh
+
+
+
+
+# sudo docker pull ${docker}.dkr.ecr.${region}.amazonaws.com/backend:latest    
+# sudo docker pull 945867449148.us-west-1.amazonaws.com/backend:latest 
+# sudo docker pull 945867449148.dkr.ecr.us-east-1.amazonaws.com/backend:latest    
+# docker login -u AWS -p $(aws ecr get-login-password --region us-east-1) 945867449148.dkr.ecr.us-east-1.amazonaws.com/backend:latest
+
+
+# #!/bin/bash
+# AWS_ACCESS_KEY_ID=AKIA5YOQX4M6O7KNEDKG
+# AWS_SECRET_ACCESS_KEY=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
+# AWS_DEFAULT_REGION=us-west-1
+# export IMAGE=945867449148
+# echo -e "${AWS_ACCESS_KEY_ID}\n${AWS_SECRET_ACCESS_KEY}\n${AWS_DEFAULT_REGION}\njson" | aws configure
+# aws configure list
+# docker login -u AWS -p $(aws ecr get-login-password --region us-east-1) 945867449148.dkr.ecr.us-east-1.amazonaws.com/backend:latest
+# sudo docker pull 945867449148.dkr.ecr.us-east-1.amazonaws.com/backend:latest
+# sudo docker images
+# sudo docker run -dti --name "todo-back" -p 3000:3000 945867449148.dkr.ecr.us-east-1.amazonaws.com/backend:latest
+       
+# # echo "#!/bin/bash"  > config.sh
+# # echo touch credentials
+# # echo "[default]" >> credentials
+# # echo "aws_access_key_id = "${access}"" >> credentials
+# # echo " aws_secret_access_key = "${secret}"" >> credentials
+# # echo "region = "${region}"" >> credentials
+# # chmod 744 config.sh
+# # ./config.sh
 
 
 
