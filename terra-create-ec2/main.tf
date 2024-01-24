@@ -79,7 +79,7 @@ resource "aws_instance" "instancia_ejemplo_04" {
   # user_data = data.template_file.user_data.rendered
   user_data = templatefile("scripts/install_docker.sh",
     {
-      region = var.TFC_AWS_REGION,
+      region = "us-east-1",
       access = aws_iam_access_key.grafana_user_access_key.id,
       secret = aws_iam_access_key.grafana_user_access_key.secret,
       docker = data.aws_caller_identity.current.account_id
