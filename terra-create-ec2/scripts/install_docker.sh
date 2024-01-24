@@ -56,7 +56,7 @@ echo "AWS_DEFAULT_REGION=${region}" >> config.sh
 echo "Configurando AWS..."
 
 # Configuración de las credenciales y la región
-echo "echo -e "${AWS_ACCESS_KEY_ID}\\n${AWS_SECRET_ACCESS_KEY}\\n${AWS_DEFAULT_REGION}\\njson" | aws configure"
+echo "echo -e "${access}\\n${secret}\\n${region}\\njson" | aws configure"
 
 # configuramos las credenciales de aws
 #echo "echo -e "${access}\\n${secret}\\n${region}\\njson" | aws configure" >> config.sh
