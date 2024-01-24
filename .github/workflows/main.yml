@@ -43,6 +43,8 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.EC2_PORT }}
           script: |
+            echo "aws configure"
+            echo -e "${{ secrets.AWS_ACCESS_KEY_ID }}\n ${{ secrets.AWS_SECRET_ACCESS_KEY }}\n${{ secrets.AWS_REGION }}\njson" | aws configure
             echo "# logueamos el usuario en el repositorio de ecr"
             sudo docker login -u AWS -p $(aws ecr get-login-password --region ${{ secrets.AWS_REGION }}) ${{secrets.AWS_REPOSITORY}}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{secrets.AWS_IMAGE_NAME}}:latest
             sudo docker pull ${{secrets.AWS_REPOSITORY}}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{secrets.AWS_IMAGE_NAME}}:latest
