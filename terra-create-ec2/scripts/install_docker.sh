@@ -50,7 +50,7 @@ sudo apt-get install -y awscli
 touch config.sh
 echo "#!/bin/bash"  >> config.sh 
 # configuramos las credenciales de aws
-echo "echo -e "${access}\n${secret}\n${region}\njson" | aws configure" >> config.sh
+echo "echo -e "${access}\\n${secret}\\n${region}\\njson" | aws configure" >> config.sh
 # logueamos el usuario en el repositorio de ecr
 echo "docker login -u AWS -p $(aws ecr get-login-password --region ${region})  ${docker}.dkr.ecr.${region}.amazonaws.com/${image}:latest" >> config.sh
 # bajamos la imagen docker de ecr
