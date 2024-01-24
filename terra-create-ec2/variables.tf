@@ -15,6 +15,6 @@ variable "key_name" {
 
 variable "TFC_AWS_REGION" {
   type    = string
-  default = ""
+  default = "us-east-1"
 }
- 
+
