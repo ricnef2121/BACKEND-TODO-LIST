@@ -2,16 +2,16 @@ name: Deploy to Amazon ECS
 on:
   push:
     branches:
-      - main 
+      - main
 env:
   AWS_REGION: ${{ secrets.AWS_REGION }}
   AWS_ECR: ${{secrets.AWS_ECR_REPOSITORY}}
   AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }} 
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
 jobs:
-  terraform:
-    name: 'Terraform'
+  deploy-ec2:
+    name: "deploy EC2"
     runs-on: ubuntu-latest
     environment: production
 
@@ -27,14 +27,14 @@ jobs:
         with:
           aws-region: ${{ secrets.AWS_REGION }}
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }} 
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       - name: Public IP
         id: ip
         uses: haythem/public-ip@v1.3
 
       - name: Add Github Actions IP to Security group
         run: |
-           aws ec2 authorize-security-group-ingress --group-name ${{ secrets.sg_example_04 }} --protocol tcp --port 22 --cidr ${{ steps.ip.outputs.ipv4 }}/32          
+          aws ec2 authorize-security-group-ingress --group-name  sg_example_04 --protocol tcp --port 22 --cidr ${{ steps.ip.outputs.ipv4 }}/32
       - name: SSH into EC2 ${{ needs.determine-environment.outputs.environment }} instance
         uses: appleboy/ssh-action@master
         with:
@@ -46,9 +46,7 @@ jobs:
             echo "set nvm directory so yarn in accessable"
             docker login -u AWS -p $(aws ecr get-login-password --region $AWS_REGION) ${{secrets.AWS_REPOSITORY}}.dkr.ecr.$AWS_REGION.amazonaws.com/${{secrets.AWS_IMAGE_NAME}}:latest
             sudo docker pull ${{secrets.AWS_REPOSITORY}}.dkr.ecr.$AWS_REGION.amazonaws.com/${{secrets.AWS_IMAGE_NAME}}:latest
-            sudo docker run -dti --name "todo-back" -p 80:3000 ${docker}.dkr.ecr.${region}.amazonaws.com/${image}:latest           
+            sudo docker run -dti --name "todo-back" -p 80:3000 ${docker}.dkr.ecr.${region}.amazonaws.com/${image}:latest
       - name: Remove Github Actions IP from security group
         run: |
-           aws ec2 revoke-security-group-ingress --group-name ${{ secrets.sg_example_04 }} --protocol tcp --port 22 --cidr ${{ steps.ip.outputs.ipv4 }}/32
-
-     
+          aws ec2 revoke-security-group-ingress --group-name ${{ secrets.sg_example_04 }} --protocol tcp --port 22 --cidr ${{ steps.ip.outputs.ipv4 }}/32
