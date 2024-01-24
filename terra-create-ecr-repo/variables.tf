@@ -7,11 +7,7 @@ variable "TFC_AWS_SECRET_ACCESS_KEY" {
   default = ""
 }
 
-variable "region" {
-  description = "AWS region to create resources in"
-  type  = string
-  default = "us-east-1"
-}
+
 
 variable "repository_list" {
   description = "List of repository names"
@@ -19,4 +15,9 @@ variable "repository_list" {
   # Default value
   # default = ["backend", "worker"]
   default = ["backend"]
+}
+
+variable "TFC_AWS_REGION" {
+  type = string
+  default = ""
 }

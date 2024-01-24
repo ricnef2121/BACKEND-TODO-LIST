@@ -19,7 +19,7 @@ terraform {
 provider "aws" {
   access_key = var.TFC_AWS_ACCESS_KEY_ID
   secret_key = var.TFC_AWS_SECRET_ACCESS_KEY
-  region     = "us-east-1"
+  region     = var.TFC_AWS_REGION
 }
 
 # Creamos un grupo de seguridad
@@ -35,14 +35,22 @@ resource "aws_security_group" "sg_example_04" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
+  # ingress {
+  #   from_port   = 3000 
+  #   to_port     = 3000
+  #   protocol    = "tcp"
+  #   cidr_blocks = ["0.0.0.0/0"]
+  # }
   ingress {
-    from_port   = 3000
-    to_port     = 3000
+    description = "http"
+    from_port   = 80
+    to_port     = 80
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
 
   ingress {
+    description = "https"
     from_port   = 443
     to_port     = 443
     protocol    = "tcp"
@@ -71,11 +79,11 @@ resource "aws_instance" "instancia_ejemplo_04" {
   # user_data = data.template_file.user_data.rendered
   user_data = templatefile("scripts/install_docker.sh",
     {
-      region = "us-west-1",
+      region = var.TFC_AWS_REGION,
       access = aws_iam_access_key.grafana_user_access_key.id,
       secret = aws_iam_access_key.grafana_user_access_key.secret,
       docker = data.aws_caller_identity.current.account_id
-      image = "backend"
+      image  = "backend"
     }
   )
 
@@ -120,5 +128,10 @@ resource "aws_iam_access_key" "grafana_user_access_key" {
 resource "aws_iam_user_policy_attachment" "grafana_user_policy_attachment_ecr" {
   user       = aws_iam_user.grafana_user.name
   policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryFullAccess"
+}
+
+resource "aws_ecr_repository" "backend" {
+  count = 0
+  name  = "backend"
 }
 

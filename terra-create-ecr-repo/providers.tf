@@ -1,7 +1,7 @@
 provider "aws" {
   access_key = var.TFC_AWS_ACCESS_KEY_ID
   secret_key = var.TFC_AWS_SECRET_ACCESS_KEY
-  region     = var.region
+  region     = var.TFC_AWS_REGION
 }
 
 # provider "docker" {

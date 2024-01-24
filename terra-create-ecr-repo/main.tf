@@ -13,7 +13,7 @@
 #   }
 # } 
 
-resource "aws_ecr_repository" "backend" {
+resource "aws_ecr_repository" "backend" { 
   name                 = "backend"
   image_tag_mutability = "MUTABLE"
   force_delete = false
