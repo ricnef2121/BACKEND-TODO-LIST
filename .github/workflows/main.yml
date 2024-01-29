@@ -48,7 +48,7 @@ jobs:
           script: |
             echo "set accessable"
             echo "pull down respecitve branch for env" 
-            git pull https://${{ secrets.GITHUB_TOKEN }}@github.com/ricnef2121/BACKEND-TODO-LIST.git main            
+            sudo git pull https://${{ secrets.GITHUB_TOKEN }}@github.com/ricnef2121/BACKEND-TODO-LIST.git main            
             echo "verify git pull"
             git status
             docker compose up            
