@@ -43,13 +43,18 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.EC2_PORT }}
           script: |
-            echo "set nvm directory so yarn in accessable"
-            docker login -u AWS -p $(aws ecr get-login-password --region $AWS_REGION) ${{secrets.AWS_REPOSITORY}}.dkr.ecr.$AWS_REGION.amazonaws.com/${{secrets.AWS_IMAGE_NAME}}:latest
-            sudo docker pull ${{secrets.AWS_REPOSITORY}}.dkr.ecr.$AWS_REGION.amazonaws.com/${{secrets.AWS_IMAGE_NAME}}:latest
-            sudo docker run -dti --name "todo-back" -p 80:3000 ${docker}.dkr.ecr.${region}.amazonaws.com/${image}:latest           
+            echo "set accessable"
+            echo "pull down respecitve branch for env" 
+            git pull https://${{ env.GITHUB_TOKEN }}@github.com/ricnef2121/BACKEND-TODO-LIST.git main            
+            echo "verify git pull"
+            git status
+            # docker login -u AWS -p $(aws ecr get-login-password --region $AWS_REGION) ${{secrets.AWS_REPOSITORY}}.dkr.ecr.$AWS_REGION.amazonaws.com/${{secrets.AWS_IMAGE_NAME}}:latest
+            # sudo docker pull ${{secrets.AWS_REPOSITORY}}.dkr.ecr.$AWS_REGION.amazonaws.com/${{secrets.AWS_IMAGE_NAME}}:latest
+            # sudo docker run -dti --name "todo-back" -p 80:3000 ${docker}.dkr.ecr.${region}.amazonaws.com/${image}:latest           
+            docker compose up
       - name: Remove Github Actions IP from security group
         run: |
-           aws ec2 revoke-security-group-ingress --group-name ${{ secrets.sg_example_04 }} --protocol tcp --port 22 --cidr ${{ steps.ip.outputs.ipv4 }}/32
+           aws ec2 revoke-security-group-ingress --group-name sg_example_04  --protocol tcp --port 22 --cidr ${{ steps.ip.outputs.ipv4 }}/32
       #   with:
       #     mask-password: 'false'
           
