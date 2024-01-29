@@ -54,7 +54,11 @@ jobs:
             sudo git pull https://${{ secrets.GITHUB_TOKEN }}@github.com/ricnef2121/BACKEND-TODO-LIST.git main            
             echo "verify git pull"
             git status
-            sudo docker compose up            
+            # sudo docker compose up            
+            echo "perform a docker restart"
+            sudo docker compose restart
+            echo "validate containers are running"
+            sudo docker compose ps -a
       - name: Remove Github Actions IP from security group
         run: |
           aws ec2 revoke-security-group-ingress --group-name sg_example_04 --protocol tcp --port 22 --cidr ${{ steps.ip.outputs.ipv4 }}/32
