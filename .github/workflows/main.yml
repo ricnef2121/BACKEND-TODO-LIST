@@ -49,12 +49,13 @@ jobs:
             echo "set accessable"
             echo "pull down respecitve branch for env" 
             echo ${{ secrets.GITHUB_TOKEN }}
-            sudo git clone https://${{ secrets.GITHUB_TOKEN }}@github.com/ricnef2121/BACKEND-TODO-LIST.git --depth 1 --branch=main ~/BACKEND-TODO-LIST
-            # sudo git pull https://${{ secrets.GITHUB_TOKEN }}@github.com/ricnef2121/BACKEND-TODO-LIST.git main            
+            # sudo git clone https://${{ secrets.GITHUB_TOKEN }}@github.com/ricnef2121/BACKEND-TODO-LIST.git --depth 1 --branch=main ~/BACKEND-TODO-LIST
+            cd ~/BACKEND-TODO-LIST
+            sudo git pull https://${{ secrets.GITHUB_TOKEN }}@github.com/ricnef2121/BACKEND-TODO-LIST.git main            
             echo "verify git pull"
             cd BACKEND-TODO-LIST
             git status
-            docker compose up            
+            sudo docker compose up            
       - name: Remove Github Actions IP from security group
         run: |
           aws ec2 revoke-security-group-ingress --group-name sg_example_04 --protocol tcp --port 22 --cidr ${{ steps.ip.outputs.ipv4 }}/32
