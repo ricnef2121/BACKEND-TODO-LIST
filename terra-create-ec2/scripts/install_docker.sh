@@ -43,28 +43,30 @@ apt-get update
 
 sudo apt-get install -y awscli
 
+sudo sudo apt install nginx
+
 # mkdir ~/.aws
 # cd ~/.aws
 
 
-touch config.sh
-echo "#!/bin/bash" >> config.sh 
-echo "AWS_ACCESS_KEY_ID=${access}" >> config.sh 
-echo "AWS_SECRET_ACCESS_KEY=${secret}" >> config.sh 
-echo "AWS_DEFAULT_REGION=${region}" >> config.sh 
+# touch config.sh
+# echo "#!/bin/bash" >> config.sh 
+# echo "AWS_ACCESS_KEY_ID=${access}" >> config.sh 
+# echo "AWS_SECRET_ACCESS_KEY=${secret}" >> config.sh 
+# echo "AWS_DEFAULT_REGION=${region}" >> config.sh 
 
-echo "Configurando AWS..."
+# echo "Configurando AWS..."
 
-# Configuración de las credenciales y la región
-echo "echo -e "${access}\\n${secret}\\n${region}\\njson" | aws configure" >> config.sh 
+# # Configuración de las credenciales y la región
+# echo "echo -e "${access}\\n${secret}\\n${region}\\njson" | aws configure" >> config.sh 
 
-# configuramos las credenciales de aws
-#echo "echo -e "${access}\\n${secret}\\n${region}\\njson" | aws configure" >> config.sh
-# logueamos el usuario en el repositorio de ecr
-echo "docker login -u AWS -p \$(aws ecr get-login-password --region ${region})  ${docker}.dkr.ecr.${region}.amazonaws.com/${image}:latest" >> config.sh
-# bajamos la imagen docker de ecr
-echo "sudo docker pull ${docker}.dkr.ecr.${region}.amazonaws.com/${image}:latest" >> config.sh
-# creamos un contenedor con la imagen que descargamos
-chmod 744 config.sh
-./config.sh
-sudo docker run -dti --name "todo-back" -p 3000:3000 ${docker}.dkr.ecr.${region}.amazonaws.com/${image}:latest
+# # configuramos las credenciales de aws
+# #echo "echo -e "${access}\\n${secret}\\n${region}\\njson" | aws configure" >> config.sh
+# # logueamos el usuario en el repositorio de ecr
+# echo "docker login -u AWS -p \$(aws ecr get-login-password --region ${region})  ${docker}.dkr.ecr.${region}.amazonaws.com/${image}:latest" >> config.sh
+# # bajamos la imagen docker de ecr
+# echo "sudo docker pull ${docker}.dkr.ecr.${region}.amazonaws.com/${image}:latest" >> config.sh
+# # creamos un contenedor con la imagen que descargamos
+# chmod 744 config.sh
+# ./config.sh
+# sudo docker run -dti --name "todo-back" -p 3000:3000 ${docker}.dkr.ecr.${region}.amazonaws.com/${image}:latest
